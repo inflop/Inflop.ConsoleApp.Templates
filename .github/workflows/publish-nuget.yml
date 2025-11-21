@@ -22,6 +22,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          persist-credentials: true
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
@@ -79,11 +82,12 @@ jobs:
       - name: Create GitHub Release Tag
         if: ${{ inputs.prerelease == false }}
         run: |
-          git config --global url."https://${{ secrets.GH_TOKEN }}@github.com/".insteadOf "https://github.com/"
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git tag -a "v${{ steps.get-version.outputs.version }}" -m "Release v${{ steps.get-version.outputs.version }}"
           git push origin "v${{ steps.get-version.outputs.version }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
