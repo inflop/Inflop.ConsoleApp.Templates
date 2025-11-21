@@ -1,0 +1,364 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Inflop",
+  "classifications": ["Console", "Modern", "Top-Level Statements"],
+  "identity": "Inflop.ConsoleApp.Modern",
+  "name": "Console App (Modern)",
+  "shortName": "console-modern",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "ConsoleApp.Modern",
+  "preferNameDirectory": true,
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "(!AddDocker)",
+          "exclude": [
+            "Dockerfile",
+            ".dockerignore",
+            "docker-compose.yml"
+          ]
+        },
+        {
+          "condition": "(AddDatabase == \"none\")",
+          "exclude": [
+            "Infrastructure/**/*",
+            "Data/**/*",
+            "Extensions/DatabaseExtensions.cs"
+          ]
+        },
+        {
+          "condition": "(AddHttpClient == \"none\")",
+          "exclude": [
+            "Services/IApiClient.cs",
+            "Services/ApiClient.cs",
+            "Extensions/HttpClientExtensions.cs"
+          ]
+        },
+        {
+          "condition": "(AddCommandLine == \"none\")",
+          "exclude": [
+            "CommandLineOptions.cs",
+            "Extensions/CommandLineExtensions.cs"
+          ]
+        },
+        {
+          "condition": "(AddHealthChecks == \"none\")",
+          "exclude": [
+            "Health/**/*",
+            "Extensions/HealthChecksExtensions.cs"
+          ]
+        },
+        {
+          "condition": "(AddMessaging == \"none\")",
+          "exclude": [
+            "Messaging/**/*",
+            "Extensions/MessagingExtensions.cs"
+          ]
+        },
+        {
+          "condition": "(UseDapper)",
+          "exclude": [
+            "Data/AppDbContext.cs",
+            "Data/EfCoreExampleRepository.cs"
+          ]
+        },
+        {
+          "condition": "(UseEfCore)",
+          "exclude": [
+            "Data/DapperExampleRepository.cs"
+          ]
+        },
+        {
+          "condition": "(AddDatabase != \"dapper\")",
+          "exclude": [
+            "Infrastructure/**/*"
+          ]
+        },
+        {
+          "condition": "(!UseSqlite)",
+          "exclude": [
+            "Infrastructure/SqliteConnectionFactory.cs"
+          ]
+        },
+        {
+          "condition": "(!UseSqlServer)",
+          "exclude": [
+            "Infrastructure/SqlServerConnectionFactory.cs"
+          ]
+        },
+        {
+          "condition": "(!UsePostgres)",
+          "exclude": [
+            "Infrastructure/PostgresConnectionFactory.cs"
+          ]
+        },
+        {
+          "condition": "(!UseRabbitMQ)",
+          "exclude": [
+            "Messaging/RabbitMqConsumer.cs",
+            "Messaging/RabbitMqPublisher.cs"
+          ]
+        },
+        {
+          "condition": "(!UseAzureServiceBus)",
+          "exclude": [
+            "Messaging/AzureServiceBusConsumer.cs",
+            "Messaging/AzureServiceBusPublisher.cs"
+          ]
+        },
+        {
+          "condition": "(!UseKafka)",
+          "exclude": [
+            "Messaging/KafkaConsumer.cs",
+            "Messaging/KafkaPublisher.cs"
+          ]
+        },
+        {
+          "condition": "(AddDatabase == \"none\")",
+          "exclude": [
+            "Configuration/DatabaseOptions.cs"
+          ]
+        },
+        {
+          "condition": "(AddHttpClient == \"none\")",
+          "exclude": [
+            "Configuration/HttpClientOptions.cs"
+          ]
+        },
+        {
+          "condition": "(AddMessaging == \"none\")",
+          "exclude": [
+            "Configuration/MessagingOptions.cs"
+          ]
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the project. Minimum supported version is .NET 8.0 (LTS).",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "net8.0",
+          "description": "Target .NET 8.0 (LTS, recommended)"
+        },
+        {
+          "choice": "net9.0",
+          "description": "Target .NET 9.0 (STS)"
+        },
+        {
+          "choice": "net10.0",
+          "description": "Target .NET 10.0 (LTS, latest)"
+        }
+      ],
+      "replaces": "net8.0",
+      "defaultValue": "net8.0"
+    },
+    "AddSerilog": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "description": "Add Serilog integration with console and file sinks"
+    },
+    "AddDocker": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "description": "Add Docker support with Dockerfile and docker-compose.yml"
+    },
+    "AddCommandLine": {
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "none",
+          "description": "No command-line parsing library"
+        },
+        {
+          "choice": "system-commandline",
+          "description": "Use System.CommandLine (Microsoft official)"
+        },
+        {
+          "choice": "spectre-console",
+          "description": "Use Spectre.Console (rich UI)"
+        },
+        {
+          "choice": "command-line-parser",
+          "description": "Use CommandLineParser (attribute-based)"
+        }
+      ],
+      "defaultValue": "none",
+      "description": "Add command-line argument parsing library"
+    },
+    "UseSystemCommandLine": {
+      "type": "computed",
+      "value": "(AddCommandLine == \"system-commandline\")"
+    },
+    "UseSpectreConsole": {
+      "type": "computed",
+      "value": "(AddCommandLine == \"spectre-console\")"
+    },
+    "UseCommandLineParser": {
+      "type": "computed",
+      "value": "(AddCommandLine == \"command-line-parser\")"
+    },
+    "AddDatabase": {
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "none",
+          "description": "No database access"
+        },
+        {
+          "choice": "dapper",
+          "description": "Use Dapper (lightweight ORM)"
+        },
+        {
+          "choice": "efcore",
+          "description": "Use Entity Framework Core"
+        }
+      ],
+      "defaultValue": "none",
+      "description": "Add database access with Dapper or Entity Framework Core"
+    },
+    "DatabaseType": {
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "sqlite",
+          "description": "SQLite (file-based, no external dependencies)"
+        },
+        {
+          "choice": "sqlserver",
+          "description": "SQL Server"
+        },
+        {
+          "choice": "postgres",
+          "description": "PostgreSQL"
+        }
+      ],
+      "defaultValue": "sqlite",
+      "description": "Database engine to use"
+    },
+    "UseDapper": {
+      "type": "computed",
+      "value": "(AddDatabase == \"dapper\")"
+    },
+    "UseEfCore": {
+      "type": "computed",
+      "value": "(AddDatabase == \"efcore\")"
+    },
+    "UseSqlite": {
+      "type": "computed",
+      "value": "(DatabaseType == \"sqlite\")"
+    },
+    "UseSqlServer": {
+      "type": "computed",
+      "value": "(DatabaseType == \"sqlserver\")"
+    },
+    "UsePostgres": {
+      "type": "computed",
+      "value": "(DatabaseType == \"postgres\")"
+    },
+    "AddHttpClient": {
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "none",
+          "description": "No HTTP client"
+        },
+        {
+          "choice": "basic",
+          "description": "Basic typed HttpClient"
+        },
+        {
+          "choice": "with-polly",
+          "description": "HttpClient with Polly resilience policies"
+        }
+      ],
+      "defaultValue": "none",
+      "description": "Add typed HttpClient with optional Polly resilience"
+    },
+    "UseHttpClientBasic": {
+      "type": "computed",
+      "value": "(AddHttpClient == \"basic\")"
+    },
+    "UseHttpClientWithPolly": {
+      "type": "computed",
+      "value": "(AddHttpClient == \"with-polly\")"
+    },
+    "AddHealthChecks": {
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "none",
+          "description": "No health checks"
+        },
+        {
+          "choice": "basic",
+          "description": "Basic health checks (programmatic)"
+        },
+        {
+          "choice": "aspnet",
+          "description": "Health checks with ASP.NET endpoint"
+        }
+      ],
+      "defaultValue": "none",
+      "description": "Add health checks with optional ASP.NET endpoint"
+    },
+    "UseHealthChecksBasic": {
+      "type": "computed",
+      "value": "(AddHealthChecks == \"basic\")"
+    },
+    "UseHealthChecksAspNet": {
+      "type": "computed",
+      "value": "(AddHealthChecks == \"aspnet\")"
+    },
+    "AddMessaging": {
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "none",
+          "description": "No message queue"
+        },
+        {
+          "choice": "rabbitmq",
+          "description": "Use RabbitMQ"
+        },
+        {
+          "choice": "azureservicebus",
+          "description": "Use Azure Service Bus"
+        },
+        {
+          "choice": "kafka",
+          "description": "Use Apache Kafka"
+        }
+      ],
+      "defaultValue": "none",
+      "description": "Add message consumer/publisher"
+    },
+    "UseRabbitMQ": {
+      "type": "computed",
+      "value": "(AddMessaging == \"rabbitmq\")"
+    },
+    "UseAzureServiceBus": {
+      "type": "computed",
+      "value": "(AddMessaging == \"azureservicebus\")"
+    },
+    "UseKafka": {
+      "type": "computed",
+      "value": "(AddMessaging == \"kafka\")"
+    }
+  }
+}

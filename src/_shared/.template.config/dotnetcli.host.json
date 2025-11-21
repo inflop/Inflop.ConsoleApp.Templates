@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json.schemastore.org/dotnetcli.host",
+  "symbolInfo": {
+    "Framework": {
+      "longName": "framework",
+      "shortName": "F"
+    },
+    "AddSerilog": {
+      "longName": "add-serilog",
+      "shortName": "sl"
+    },
+    "AddDocker": {
+      "longName": "add-docker",
+      "shortName": "ad"
+    },
+    "AddCommandLine": {
+      "longName": "add-commandline",
+      "shortName": "cl"
+    },
+    "AddDatabase": {
+      "longName": "add-database",
+      "shortName": "db"
+    },
+    "DatabaseType": {
+      "longName": "database-type",
+      "shortName": "dt"
+    },
+    "AddHttpClient": {
+      "longName": "add-httpclient",
+      "shortName": "hc"
+    },
+    "AddHealthChecks": {
+      "longName": "add-healthchecks",
+      "shortName": "hch"
+    },
+    "AddMessaging": {
+      "longName": "add-messaging",
+      "shortName": "msg"
+    },
+    "UseAsync": {
+      "longName": "use-async",
+      "shortName": "ua"
+    }
+  }
+}

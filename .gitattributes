@@ -1,0 +1,35 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Shell scripts must use LF line endings
+*.sh text eol=lf
+
+# Ensure these files use LF endings
+*.bash text eol=lf
+*.zsh text eol=lf
+
+# Source code
+*.cs text diff=csharp
+*.csproj text
+*.sln text
+*.json text
+*.md text
+*.xml text
+
+# Documentation
+*.txt text
+README* text
+LICENSE text
+CHANGELOG* text
+
+# Binary files
+*.dll binary
+*.exe binary
+*.nupkg binary
+*.snupkg binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary

@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageType>Template</PackageType>
+        <PackageVersion>1.0.0</PackageVersion>
+        <PackageId>Inflop.ConsoleApp.Templates</PackageId>
+        <Title>Inflop Console Application Templates</Title>
+        <Authors>Inflop</Authors>
+        <Description>A collection of 4 production-ready .NET console application templates with progressive complexity: Simple (manual DI), Standard (Generic Host + BackgroundService), Advanced (extension methods pattern), and Enterprise (strongly-typed configuration). Features: async/await support, Serilog logging, Docker containerization, database access (EF Core/Dapper with SQLite/SQL Server/PostgreSQL), typed HTTP clients with Polly resilience, health checks, message queuing (RabbitMQ/Azure Service Bus/Kafka). Supports .NET 8.0 (LTS), .NET 9.0 (STS), and .NET 10.0 (LTS, latest).</Description>
+        <PackageTags>dotnet-new;templates;console;worker;backgroundservice;di;logging;serilog;database;efcore;httpclient;messaging;docker;async</PackageTags>
+        <PackageProjectUrl>https://github.com/inflop/Inflop.ConsoleApp.Templates</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/inflop/Inflop.ConsoleApp.Templates</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
+
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <IncludeContentInPack>true</IncludeContentInPack>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <ContentTargetFolders>content</ContentTargetFolders>
+        <NoWarn>$(NoWarn);NU5128</NoWarn>
+        <NoDefaultExcludes>true</NoDefaultExcludes>
+        <EnableDefaultItems>false</EnableDefaultItems>
+        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="templates/**/*" Exclude="templates/**/bin/**;templates/**/obj/**;_shared/**" />
+        <None Include="../README.md" Pack="true" PackagePath="/" />
+        <None Include="icon.png" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <!-- Exclude _shared directory from package -->
+    <ItemGroup>
+        <Compile Remove="_shared/**/*.cs" />
+        <None Remove="_shared/**/*" />
+    </ItemGroup>
+
+    <!-- Explicitly exclude template files from compilation -->
+    <ItemGroup>
+        <Compile Remove="templates/**/*.cs" />
+        <None Include="templates/**/*.cs" />
+    </ItemGroup>
+
+</Project>
