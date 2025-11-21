@@ -1,7 +1,7 @@
 # Inflop.ConsoleApp.Templates
 
 <p align="center">
-  <img src="src/icon.png" alt="Inflop Console App Templates Icon" width="128" />
+  <img src="https://raw.githubusercontent.com/inflop/Inflop.ConsoleApp.Templates/master/src/icon.png" alt="Inflop Console App Templates Icon" width="128" />
 </p>
 
 A comprehensive collection of .NET console application templates with built-in support for Dependency Injection, Configuration (appsettings.json), and Logging (ILogger<T>).
